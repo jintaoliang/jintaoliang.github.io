@@ -65,6 +65,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-Install-Python-Nginx-MySQL-Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/29/CentOS-Install-Python-Nginx-MySQL-Redis/" class="article-date">
+  <time datetime="2015-01-29T06:45:02.000Z" itemprop="datePublished">Jan 29 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/29/CentOS-Install-Python-Nginx-MySQL-Redis/">CentOS 安装 Python &amp; Tornado &amp; Nginx &amp; MySQL &amp; Redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Python">Python</h4>
+<p>安装 Python 2.7.6，CentOS 6.5 自带 Python 2.6.6，原因是由于 yum 依赖 Python 2.6</p>
+<p>下载 Python 2.7.6 并解压</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>wget <span class="symbol">https:</span>/<span class="regexp">/www.python.org/ftp</span><span class="regexp">/python/</span><span class="number">2.7</span>.<span class="number">6</span>/<span class="constant">Python</span>-<span class="number">2.7</span>.<span class="number">6</span>.tar.xz</div><div class="line"><span class="variable">$ </span>tar -xvf <span class="constant">Python</span>-<span class="number">2.7</span>.<span class="number">6</span>.tar.xz</div></pre></td></tr></table></figure>
+
+<p>安装 zlib，安装 pip 时需要 zlib</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">cd</span> Python-<span class="number">2.7</span>.<span class="number">6</span>/Modules/zlib</div><div class="line">$ ./configure</div><div class="line">$ <span class="keyword">make</span> <span class="keyword">all</span></div><div class="line">$ <span class="keyword">make</span> install</div></pre></td></tr></table></figure>
+
+<p>安装 Python 2.7.6</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">cd</span> ../../</div><div class="line">$ ./configure</div><div class="line">$ <span class="keyword">make</span> <span class="keyword">all</span></div><div class="line">$ <span class="keyword">make</span> install</div></pre></td></tr></table></figure>
+
+<p>将 Python 2.7.6 设为默认环境</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mv <span class="regexp">/usr/</span>bin<span class="regexp">/python /</span>usr<span class="regexp">/bin/</span>python2.<span class="number">6.6</span></div><div class="line">$ ls -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>python2.<span class="number">7</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python</span></div></pre></td></tr></table></figure>
+
+<p>修改 yum 为原来依赖的 Python 2.6.6，将 (/usr/bin/yum) 第一行 <code>#!/usr/bin/python</code> 修改为 <code>#!/usr/bin/python2.6.6</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">vi</span> /usr/bin/yum</div></pre></td></tr></table></figure>
+
+<h4 id="Nginx">Nginx</h4>
+<p>安装 Nginx</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>yum install nginx</div></pre></td></tr></table></figure>
+
+<h4 id="MySQL">MySQL</h4>
+<p>安装 MySQL 客户端</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>yum install mysql</div></pre></td></tr></table></figure>
+
+<p>安装 MySQL-Devel， 使用 pip 安装 MySQL-Python 依赖 MySQL-Devel</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>yum install mysql-devel</div></pre></td></tr></table></figure>
+
+<h4 id="Redis">Redis</h4>
+<p>安装 Redis</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>yum install redis</div></pre></td></tr></table></figure>
+
+<h4 id="Tornado">Tornado</h4>
+<p>安装 pip 并使用 pip 安装 Tornado</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ wget http<span class="variable">s:</span>//bootstrap.pypa.io/<span class="built_in">get</span>-pip.<span class="keyword">py</span></div><div class="line">$ <span class="keyword">python</span> <span class="built_in">get</span>-pip.<span class="keyword">py</span></div><div class="line">$ pip install tornado</div><div class="line">$ pip install mysql-<span class="keyword">python</span></div><div class="line">$ pip install redis</div></pre></td></tr></table></figure>
+
+<p>完。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jintaoliang.github.com/2015/01/29/CentOS-Install-Python-Nginx-MySQL-Redis/" data-id="e6hxr6ka6ewk941h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Hexo-TypeError-Cannot-read-property-1-of-undefined" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/01/11/Hexo-TypeError-Cannot-read-property-1-of-undefined/" class="article-date">
@@ -102,7 +177,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jintaoliang.github.com/2015/01/11/Hexo-TypeError-Cannot-read-property-1-of-undefined/" data-id="m9us6mai03yieo85" class="article-share-link">Share</a>
+      <a data-url="http://jintaoliang.github.com/2015/01/11/Hexo-TypeError-Cannot-read-property-1-of-undefined/" data-id="ncv5nnpk9dx0saif" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Error/">Error</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
@@ -255,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jintaoliang.github.com/2015/01/11/OS-X-Yosemite-Install-MySQL-VirtualEnv-Tornado-Supervisor/" data-id="2wuey9a6y8dqbvwd" class="article-share-link">Share</a>
+      <a data-url="http://jintaoliang.github.com/2015/01/11/OS-X-Yosemite-Install-MySQL-VirtualEnv-Tornado-Supervisor/" data-id="1lt62wv0le1lhajo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSX/">OSX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tornado/">Tornado</a></li></ul>
@@ -337,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jintaoliang.github.com/2015/01/09/OS-X-Yosemite-Install-Zsh-brew-vim/" data-id="x3cdrma1eughb8o1" class="article-share-link">Share</a>
+      <a data-url="http://jintaoliang.github.com/2015/01/09/OS-X-Yosemite-Install-Zsh-brew-vim/" data-id="q7r4q81rilw72rfu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSX/">OSX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Zsh/">Zsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brew/">brew</a></li></ul>
